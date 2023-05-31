@@ -1,28 +1,33 @@
 <script>
-  let stream = null;
+  let image = null;
 
-  async function turnOnCamera() {
+  async function takePhoto() {
     try {
-      stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      // Do something with the camera stream, e.g., display it in a video element
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      const videoElement = document.createElement('video');
+      videoElement.srcObject = stream;
+      await videoElement.play();
+
+      const canvas = document.createElement('canvas');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+      const photoURL = canvas.toDataURL('image/png');
+      image = photoURL;
+      
+      stream.getTracks().forEach(track => track.stop());
     } catch (error) {
       console.error('Error accessing camera:', error);
-    }
-  }
-
-  function turnOffCamera() {
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      stream = null;
     }
   }
 </script>
 
 <main>
-  {#if stream}
-    <video autoplay={true} on:destroy={turnOffCamera}></video>
+  {#if image}
+    <img src={image} alt="Captured Photo" />
   {:else}
-    <button on:click={turnOnCamera}>Turn on camera</button>
+    <button on:click={takePhoto}>Take photo</button>
   {/if}
 </main>
 
@@ -34,7 +39,7 @@
     height: 100vh;
   }
 
-  video {
+  img {
     max-width: 100%;
     max-height: 100%;
   }
