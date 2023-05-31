@@ -1,33 +1,24 @@
 <script>
-  let image = null;
+  let photoURL = null;
 
-  async function takePhoto() {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      const videoElement = document.createElement('video');
-      videoElement.srcObject = stream;
-      await videoElement.play();
-
-      const canvas = document.createElement('canvas');
-      canvas.width = videoElement.videoWidth;
-      canvas.height = videoElement.videoHeight;
-      canvas.getContext('2d').drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-      const photoURL = canvas.toDataURL('image/png');
-      image = photoURL;
-      
-      stream.getTracks().forEach(track => track.stop());
-    } catch (error) {
-      console.error('Error accessing camera:', error);
+  function handlePhotoCapture(event) {
+    const file = event.target.files[0];
+    
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        photoURL = reader.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 </script>
 
 <main>
-  {#if image}
-    <img src={image} alt="Captured Photo" />
+  {#if photoURL}
+    <img src={photoURL} alt="Captured Photo" />
   {:else}
-    <button on:click={takePhoto}>Take photo</button>
+    <input type="file" accept="image/*" capture="camera" onchange={handlePhotoCapture} />
   {/if}
 </main>
 
