@@ -1,8 +1,16 @@
 <script>
+  import { user, isLoggedIn, openLoginDiv } from '$lib/stores';
+  import Login from '$lib/components/login.svelte';
 
+  const onLoginClick = () => {
+    openLoginDiv.set(true);
+  }
 </script>
 
 <div class="wrap">
+  <div id="header" on:click={onLoginClick}>
+    로그인
+  </div>
   <div id="title">앱 이름</div>
   <a href="/start" id="startBtnAnchor">
     <div id="startBtn">시작</div>
@@ -11,6 +19,9 @@
     <div class="menuBtn" id="historyBtn">세탁 히스토리</div>
     <div class="menuBtn" id="tipBtn">세탁 팁</div>
   </div>
+  {#if $openLoginDiv}
+    <Login />
+  {/if}
 </div>
 
 <style>
