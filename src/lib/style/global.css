@@ -2,3 +2,16 @@
 /* font-family: Roboto */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 /* font-family: Pretendard */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+/* font-family: 'Archivo Black' */
+
+html {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+body {
+  overflow: hidden;
+  position: relative;
+}

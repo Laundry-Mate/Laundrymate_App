@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "capstoneocr-385012",
+  "private_key_id": "c369da757a91508a8c11408b2d542becb2fc92c2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEuwIBADANBgkqhkiG9w0BAQEFAASCBKUwggShAgEAAoIBAQCuK5ivBcFZgk4e\nux/tWVy2H+xSrktvQZJ/tNlJn10wYb7hk1DCXRg8DZ17IBOicT1yr6qMyXtSWRde\nKG9ds6nzDNKOhh/1k81ZwkafonJAWp6LeTtjwLiJ8FI81F50n+8nBwAl3wtrNrgr\nGOynI8BoJ3c+OHnBwwTRC/ExK7riZ5J4cSB/mp88Xo83yOPGYNxuYoPMD9kZRVAJ\n97Lgb+ddSg/DpRACgQLFPx12Q1H6VhVA/BGluEIes6x8rury9nN7Qfy6l+DQXBTN\nkgGa0vFsw2avGS8gf2XUZHcvqSCpO7RffRZFiPaKodqxN32klu8kkNctFuz77fGx\nGhtWuzKxAgMBAAECgf85Rrz/UbUz6lYmZQMq2qhSfE0LI6ZLABVdSevq+i17K6nK\nJNf6EwNVPGT9iJ7sXLEIdhxwEBIuEn5MyJ9XAS5yb1UO6ay45dIyImF3PcS0xRg+\nZa/SLh6BvjZNKsmlMLNE8lhqG991cpk+EwRAMtGjbtcX7xqbTbbXyEWZFfhvW3Ov\nzndaiMjnXnKKgVGJhFckPnKKmoxpTqH3m56zAHo7a84qzLdXdcsyslViyCZ+mP9v\nVr2Z6IJ38YeOT6BlxLpRS/0yQmB3JPcWDeJbvkn1fDq0onkUlwmNGRfW05hFZir8\nRigDNPmr91ZBRS+sYxhNNLFt5k/UGk2hBtkQvEECgYEA9TTwKN31res88VuU8XZv\nETbGPDDYPrCExsrtfTbumwUid+xqCUgeH9aIyJPVgtWK5ZpXQjkVwaj1oNwQxYaU\nwoSmyguEUQAU1XtfYBOlG5hklUawMhS8hSeAdCTqoiSxAeyDhWGA4wO8R16+FKqI\n3UaRRNQ0uvF0nSiL/+vir3ECgYEAtdYyxVnNkqtRlQLte/ikDgN4R3+xuSbc6PVU\nEJ5NQcAKl2HW1+z5YEQTK8XCpvZtUubO2Rv660OFancZ4qaqq5H+bEpam90jKJLy\nSyFNsj652cKHO96HCImCdOJROZyyadH8vvZP8/eV6tV5Zht4ohzw9DFzbBK3RD6S\nW8FBl0ECgYAaImdKY8XQoJbhPpqUVcQmuIjOV4JkxBmSuoQvaVBrE1QGJhtzG82i\nJRJ1FlSWWj4wlI+iTkVEW8a6O1pKQzrNtKe2Nx4GKBUQX9LdgZqCY26s/li/Lbie\nFIS7XEfpujFnfBbUe3zqNTa3AKEPwNFPjDrldByepCeCrJSnVTPW8QKBgGPJiZEt\n6BeuNpYcxjD7USRzmQU7uU9PWXnqb9iy1tjXR7its5ZJcMz4bsDdxSWVJIeTLD6P\nEVMcedHkTGtKZWzEMKhC4ZiZcZrpkVfTjezcaWdsToR3aQkxVUtJi6OfL3XNC/PL\n/jJ3U2lM/1MejkQAt+Z6YMoVN0eXQwBhfNpBAoGBAOhiM2JeqJUtMz/bUYrNfmba\npt3sO82pjsZpETvys0MRfV1/qZN//PymvgNpuVputDJY5jJWZ6g9UkvOztJMbD4e\nB1rEsooJv4V3QByLXVINbg237utvauZmByTtKrzc2ymyD9shHvOcn//25mkSf0g7\nqjirvlA/sWcR5L4o+PYU\n-----END PRIVATE KEY-----\n",
+  "client_email": "westsea@capstoneocr-385012.iam.gserviceaccount.com",
+  "client_id": "117107781569606421859",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/westsea%40capstoneocr-385012.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,5 +1,6 @@
 <script>
-  import '$lib/style/global.css';
+  import "../app.postcss";
+  import "$lib/style/global.css";
 </script>
 
 <slot />

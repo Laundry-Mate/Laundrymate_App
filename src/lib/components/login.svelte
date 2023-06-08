@@ -6,26 +6,25 @@
   import {user, isLoggedIn, openLoginDiv} from '$lib/stores';
 
   async function onGoogleLoginBtnClcicked() {
+    console.log('googl');
     await signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result.user)
         $user = result.user
         $isLoggedIn = true
+        openLoginDiv.set(false);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
         const email = error.customData.email;
         const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log('error');
+        console.error(error);
         console.log(errorCode);
-        console.log(email);
         console.log(errorMessage);
+        console.log(email);
         console.log(credential);
       })
-  }
-  async function logOut(){
-    signOut(auth)
   }
 
   onAuthStateChanged(auth,(currUser) => {
@@ -64,14 +63,6 @@
       </svg>
       Google 계정으로 로그인
     </div>
-    <div id="twitterLogin">
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24px" height="24px">
-        <g id="surface353699323">
-          <path style=" stroke:none;fill-rule:nonzero;fill:rgb(1.176471%,66.274512%,95.686275%);fill-opacity:1;" d="M 23.699219 4.480469 C 22.839844 4.859375 21.914062 5.113281 20.9375 5.234375 C 21.929688 4.644531 22.695312 3.707031 23.050781 2.597656 C 22.125 3.140625 21.097656 3.539062 20.003906 3.75 C 19.128906 2.824219 17.882812 2.25 16.5 2.25 C 13.851562 2.25 11.699219 4.378906 11.699219 7.007812 C 11.699219 7.378906 11.742188 7.742188 11.824219 8.09375 C 7.835938 7.894531 4.296875 5.996094 1.929688 3.117188 C 1.515625 3.820312 1.28125 4.644531 1.28125 5.515625 C 1.28125 7.164062 2.125 8.621094 3.414062 9.476562 C 2.628906 9.453125 1.886719 9.234375 1.238281 8.882812 C 1.238281 8.898438 1.238281 8.917969 1.238281 8.9375 C 1.238281 11.246094 2.894531 13.167969 5.089844 13.605469 C 4.6875 13.714844 4.265625 13.777344 3.828125 13.777344 C 3.515625 13.777344 3.214844 13.742188 2.921875 13.6875 C 3.53125 15.574219 5.304688 16.953125 7.40625 16.996094 C 5.761719 18.269531 3.691406 19.03125 1.441406 19.03125 C 1.054688 19.03125 0.671875 19.011719 0.296875 18.964844 C 2.425781 20.3125 4.949219 21.101562 7.660156 21.101562 C 16.488281 21.101562 21.320312 13.847656 21.320312 7.558594 C 21.320312 7.351562 21.3125 7.144531 21.304688 6.945312 C 22.246094 6.277344 23.058594 5.4375 23.699219 4.480469 "/>
-        </g>
-      </svg>
-      Twitter 계정으로 로그인
-    </div>
   </div>
 </div>
 
@@ -87,14 +78,14 @@
   }
 
   #loginWrap {
-    width: 80vw;
-    height: 40vh;
+    width: 90vw;
     position: fixed;
-    left: calc(50vw - 40vw);
-    top: 20vh;
+    left: calc(50vw - 45vw);
+    top: 35vh;
     background-color: rgba(256, 256, 256, 1);
     margin: 0;
     padding-top: 25px;
+    padding-bottom: 25px;
     border-radius: 10px;
     overflow: hidden;
     display: flex;
@@ -103,6 +94,7 @@
     gap: 25px;
     z-index: 100;
     font-family: Pretendard;
+    font-weight: 700;
   }
   #loginHeader {
     width: 100%;

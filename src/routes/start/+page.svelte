@@ -1,11 +1,27 @@
 <script>
+  import Clothes from "$lib/components/clothes.svelte";
+  import { selectedClothes, openClothes, photoInfoList } from '$lib/stores';
+
+
   let photoURL = null;
   let test = null;
   let file = null;
   let fileInput = null;
-  $: photoURL, test, file, photoInfoList;
+  $: photoURL, test, file;
 
-  let photoInfoList = [];
+  const encodeImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+        resolve(base64String);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
 
   const rgbToHex = (arr) => {
     // Convert each RGB component to a two-digit hexadecimal string
@@ -16,20 +32,41 @@
     return '#' + hexR + hexG + hexB;
   }
 
-  const handlePhotoCapture = (event) => {
+  const handlePhotoCapture = async (event) => {
     console.log(fileInput);
     file = event.target.files[0];
     console.log(URL.createObjectURL(file));
     console.log(file);
     
     if (file) {
+
+      try {
+        const base64 = await encodeImageToBase64(file);
+
+        console.log(base64);
+        const response = await fetch('/api/ocr', {
+            method: 'POST',
+            body: JSON.stringify({ base64 }),
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+
+        const total = await response.json();
+
+        console.log(total);
+      } catch (e) {
+        console.error(e)
+      }
+
       const image = new Image();
       const canvas = document.createElement("canvas");
       const context = canvas.getContext('2d');
 
       photoURL = URL.createObjectURL(file);
 
-      console.log(photoURL);
+
+      // console.log(photoURL);
       image.src = photoURL;
 
       image.onload = () => {
@@ -55,12 +92,16 @@
         const photoColor = rgbToHex(pixelData);
         console.log(pixelData);
 
-        photoInfoList.push({
+        const photoInfo = {
           photoURL: photoURL,
           photoColor: photoColor,
           photoTexture: ["cotton", 'poly']
-        })
-        photoInfoList = photoInfoList;
+        }
+
+        photoInfoList.update((prev) => ([...prev, photoInfo]))
+
+        selectedClothes.set(photoInfo);
+        openClothes.set(true);
       }
     }
   }
@@ -68,8 +109,10 @@
 
 <div class="wrap">
   <div id="startHeader">
-    <img src="/arrow/leftArrow.svg" alt="" id="backArrow">
-    <div id="title">시작하기</div>
+    <a href="/">
+      <img src="/arrow/leftArrow.svg" alt="" id="backArrow">
+    </a>
+    <img src="/icon/Logo-hor.png" alt="" id="headerLogo">
   </div>
   <div id="listComponent">
     <div id="listWrap">
@@ -81,8 +124,11 @@
         <div>이미지</div>
       </div>
 
-      {#each photoInfoList as singlePhoto, i}
-        <div class="singleList">
+      {#each $photoInfoList as singlePhoto, i}
+        <div class="singleList" on:click={() => {
+          openClothes.set(true);
+          selectedClothes.set(singlePhoto);
+        }}>
           <div id="elementIndex">{i + 1}</div>
           <div id="colorWrap">
             <div id="colorPreview"
@@ -99,12 +145,26 @@
     </div>
   </div>
 
-  <input type="file" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/>
-  <div id="test">test</div>
-  <div>{photoURL}</div>
-  <div>{file}</div>
-  <div>{test}</div>
-  <div>{fileInput}</div>
+  <div id="bannerContainer">
+    <div id="bannerDivWrap">
+      <div class="cameraBtn" id="labelCameraWrap">
+        <label for="labelCamera">라벨로 옷 인식하기</label>
+        <input type="file" id="labelCamera" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/>
+      </div>
+      <div class="cameraBtn" id="textureCameraWrap">
+        <label for="textureCamera">옷감으로 옷 인식하기</label>
+        <input type="file" id="textureCamera" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/>
+      </div>
+      <div class="cameraBtn" id="applyBtn">
+        빨래 하기!
+        <!-- <label for="textureCamera">옷감으로 옷 인식하기</label>
+        <input type="file" id="textureCamera" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/> -->
+      </div>
+    </div>
+  </div>
+  {#if $openClothes}
+    <Clothes />
+  {/if}
 </div>
 
 <style>
@@ -115,26 +175,29 @@
     height: 100vh;
     font-family: 'Roboto';
     font-weight: 600;
+    background-color: #F7F3FE;
   }
+
   #startHeader {
     display: flex;
     align-items: center;
     width: 100vw;
     height: 5vh;
     padding-left: 3vw;
+    padding-top: 1vh;
     gap: 10vw;
   }
   #backArrow {
     height: 3vh;
   }
-  #title {
-    font-size: 5vw;
+  #headerLogo {
+    width: 60vw;
+    margin-left: 5vw;
   }
   #listComponent {
     width: 100vw;
     height: 90vh;
     display: flex;
-    background-color: #EEEEFE;
     box-sizing: border-box;
   }
 
@@ -145,6 +208,7 @@
     border-radius: 5vw;
     /* box-sizing: border-box; */
     overflow-y: scroll;
+    border: 1px solid #372A6E;
   }
   #listTitle {
     font-size: 25px;
@@ -152,7 +216,7 @@
     justify-content: center;
     padding: 10px 0;
 
-    background-color: #372A6E;
+    background-color: #40128B;
     color: white;
     font-family: Pretendard;
     font-weight: 600;
@@ -162,7 +226,7 @@
     height: 30px;
     display: grid;
     grid-template-columns: 2fr 3fr 9fr 50px;
-    border-bottom: 1px solid #524690;
+    border-bottom: 1px solid #40128B;
     font-family: Pretendard;
     font-weight: 700;
   }
@@ -185,6 +249,7 @@
     justify-content: center;
     align-items: center;
   }
+
   #textureWrap {
     display: flex;
     align-items: center;
@@ -195,9 +260,75 @@
     height: 30px;
     border-radius: 10px;
   }
+
   #imageWrap img {
     height: 40px;
     border-radius: 10px;
+  }
+  #bannerContainer {
+    width: 100vw;
+    height: 15vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #40128B;
+    border-top-left-radius: 5vw;
+    border-top-right-radius: 5vw;
+  }
 
+  #bannerDivWrap {
+    width: 100vw;
+    overflow: auto;
+    display: flex;
+    gap: 10vw;
+    padding: 0 30vw;
+    scroll-snap-type: x mandatory;
+  }
+  #bannerDivWrap::-webkit-scrollbar {
+    display: none;
+  }
+  .cameraBtn {
+    width: 60vw;
+    height: 7vh;
+    border-radius: 5vh;
+    scroll-snap-align: center;
+    flex-shrink: 0;
+    border: 1px solid #40128B;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Pretendard;
+    font-size: 23px;
+    font-weight: 800;
+    position: relative;
+  }
+  #labelCameraWrap:after {
+    content: '';
+    position: absolute;
+    top: calc(50% - 1.5vw);
+    right: -12vw;
+    width: 12vw;
+    height: 3vw;
+    background-color: white;
+  }
+
+
+  .cameraBtn input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+
+  }
+  #applyBtn {
+    background-color: #FFE79B;
+    color: #40128B;
   }
 </style>
