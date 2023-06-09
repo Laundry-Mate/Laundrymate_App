@@ -23,9 +23,7 @@
       <div id="clothesTextureWrap">
         <div class="clothesInfoTitle">인식된 재질</div>
         <div id="clothesTexture">
-          {#each $selectedClothes.photoTexture as texture}
-            <span>{texture}</span>
-          {/each}
+          <span>{$selectedClothes.photoTexture}</span>
         </div>
       </div>
     </div>
@@ -123,6 +121,10 @@
   }
   #clothesTexture {
     background-color: #EDE4FC;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vw;
   }
   #btnWrap {
     border-top: 2px solid #cdcdcd;

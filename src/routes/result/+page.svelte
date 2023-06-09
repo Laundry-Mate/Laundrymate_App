@@ -1,7 +1,35 @@
 <script>
   import { AccordionItem, Accordion } from 'flowbite-svelte'
-  const exist = false;
-</script>
+  const exist = true;
+
+  const result = [
+    {
+      'basket': 'basket_0', 
+      'dehydration': 'Light', 
+      'average_wash_temperature': 30, 
+      'indices': [0]
+    }, {
+      'basket': 'basket_0', 
+      'dehydration': 'None', 
+      'average_wash_temperature': 0, 
+      'indices': []
+    }, {
+      'basket': 'basket_1', 
+      'dehydration': 'Light', 
+      'average_wash_temperature': 30, 
+      'indices': [0]
+    }, {
+      'basket': 'basket_1', 
+      'dehydration': 'None', 
+      'average_wash_temperature': 0, 
+      'indices': []
+    }, {
+      'basket': 'handwash_only', 
+      'dehydration': 'None', 
+      'indices': [2]
+    }]
+
+  </script>
 
 <div class="wrap">
   <div id="historyHeader">

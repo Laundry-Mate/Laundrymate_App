@@ -33,31 +33,28 @@
   }
 
   const handlePhotoCapture = async (event) => {
-    console.log(fileInput);
+    // console.log(fileInput);
     file = event.target.files[0];
     console.log(URL.createObjectURL(file));
-    console.log(file);
+    // console.log(file);
     
     if (file) {
 
-      try {
-        const base64 = await encodeImageToBase64(file);
+      const base64 = await encodeImageToBase64(file);
 
-        console.log(base64);
-        const response = await fetch('/api/ocr', {
-            method: 'POST',
-            body: JSON.stringify({ base64 }),
-            headers: {
-                'content-type': 'application/json'
-            }
-        });
+      // console.log(base64);
+      const response = await fetch('/api/ocr', {
+          method: 'POST',
+          body: JSON.stringify({ base64 }),
+          headers: {
+              'content-type': 'application/json'
+          }
+      });
 
-        const total = await response.json();
+      const total = await response.json();
 
-        console.log(total);
-      } catch (e) {
-        console.error(e)
-      }
+      console.log('total');
+      console.log(total);
 
       const image = new Image();
       const canvas = document.createElement("canvas");
@@ -80,7 +77,7 @@
           Array.from(context.getImageData(image.width - 1, image.height / 2, 1, 1).data).slice(0, 3),
           Array.from(context.getImageData(image.width / 2, image.height - 1, 1, 1).data).slice(0, 3),
         ]
-        console.log(pixelData);
+        // console.log(pixelData);
 
         pixelData = pixelData.reduce((acc, currentArray) => {
           return acc.map((value, index) => value + currentArray[index]);
@@ -88,14 +85,14 @@
 
         pixelData = pixelData.map(x => Math.round(x / 4));
 
-        console.log(pixelData);
+        // console.log(pixelData);
         const photoColor = rgbToHex(pixelData);
-        console.log(pixelData);
+        // console.log(pixelData);
 
         const photoInfo = {
           photoURL: photoURL,
           photoColor: photoColor,
-          photoTexture: ["cotton", 'poly']
+          photoTexture: [total.detections],
         }
 
         photoInfoList.update((prev) => ([...prev, photoInfo]))
@@ -156,7 +153,9 @@
         <input type="file" id="textureCamera" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/>
       </div>
       <div class="cameraBtn" id="applyBtn">
-        빨래 하기!
+        <a href="/test">
+          빨래 하기!
+        </a>
         <!-- <label for="textureCamera">옷감으로 옷 인식하기</label>
         <input type="file" id="textureCamera" accept="image/*" capture="camera" on:change={handlePhotoCapture} bind:this={fileInput}/> -->
       </div>

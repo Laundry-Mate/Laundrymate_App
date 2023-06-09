@@ -13,9 +13,7 @@
       openLoginDiv.set(true);
     }
   }
-  const onSettingClick = () => {
 
-  }
   onMount(() => {
     selectedClothes.set({});
   })
